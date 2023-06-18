@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatNow</title>
+</head>
+<body>
+    <ul>
+        <ol>Home</ol>
+        <ol>
+            <a href="loginpage.html">Login</a>
+        </ol>
+    </ul>
+    
+    <div>
+        <h1>Welcome, <span id="name"></span></h1>
+    </div>
+    <script>
+        function getUserName(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "loginpage.html",true);
+            xhr.onload = function(){
+                if(xhr.status===200){
+                    var name = xhr.responseText;
+                    var element = document.getElementById("name");
+                    element.innerHTML = name;
+                }
+            };
+            xhr.send();
+        }
+        getUserName();
+    </script>
+</body>
+</html>
