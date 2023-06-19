@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Page</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    // Retrieve data from the server and display it
+    function displayData() {
+      axios.get('/getsessiondata')
+        .then(function(response) {
+          var name = response.data;
+          document.getElementById('displayData').textContent = name || 'No data available';
+        })
+        .catch(function(error) {
+          console.error('Error retrieving data:', error);
+        });
+    }
+
+    // Call displayData function when the page loads
+    window.onload = displayData;
+  </script>
+</head>
+<body>
+  <h1>Chat Page</h1>
+  <p id="displayData">Loading...</p>
+</body>
+</html>

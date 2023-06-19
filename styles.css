@@ -1,0 +1,12 @@
+#chatContainer {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+#messages {
+  height: 300px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px
+}

@@ -1,35 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatNow</title>
+  <title>Chat App</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <ul>
-        <ol>Home</ol>
-        <ol>
-            <a href="loginpage.html">Login</a>
-        </ol>
-    </ul>
-    
-    <div>
-        <h1>Welcome, <span id="name"></span></h1>
+  <div id="chatContainer">
+    <div id="messages"></div>
+    <div id="inputContainer">
+      <input type="text" id="usernameInput" placeholder="Username">
+      <input type="text" id="messageInput" placeholder="Type your message...">
+      <button id="sendButton">Send</button>
     </div>
-    <script>
-        function getUserName(){
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "loginpage.html",true);
-            xhr.onload = function(){
-                if(xhr.status===200){
-                    var name = xhr.responseText;
-                    var element = document.getElementById("name");
-                    element.innerHTML = name;
-                }
-            };
-            xhr.send();
-        }
-        getUserName();
-    </script>
+  </div>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:3000');
+
+    socket.onmessage = function(event) {
+      const message = JSON.parse(event.data);
+      displayMessage(message);
+    };
+
+    document.getElementById('sendButton').addEventListener('click', function() {
+      const username = document.getElementById('usernameInput').value;
+      const content = document.getElementById('messageInput').value;
+      if (username && content) {
+        const message = { username, content };
+        socket.send(JSON.stringify(message));
+        document.getElementById('messageInput').value = '';
+      }
+    });
+
+    function displayMessage(message) {
+      const messagesDiv = document.getElementById('messages');
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message');
+      messageDiv.innerHTML = `<strong>${message.username}:</strong> ${message.content}`;
+      messagesDiv.appendChild(messageDiv);
+    }
+  </script>
 </body>
 </html>
